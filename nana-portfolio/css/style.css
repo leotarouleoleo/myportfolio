@@ -1,0 +1,1066 @@
+@charset "UTF-8";
+/*  モバイルファースト / PC は 768px 以上*/
+
+/* ---------- 変数 ---------- */
+:root {
+  --c-text: #4d4a45; /* Pテキストカラー */
+  --c-brown: #7e5132; /* Pメインカラー */
+  --c-yellow: #fdd84a; /* メインカラー */
+  --c-yellow-pale: #fff2c0; /* CAREERのみ 背景 */
+  --c-bg: #fffdf6; /* P背景カラー */
+  --c-white: #fff; /* 背景 */
+  --c-bar: #303030; /* 小見出しの横の縦棒、アコーディオンの＋／－ */
+
+  /* フォントサイズ
+     名前は文字の大きさ（xs=とても小さい / sm=小さい / md=中 / lg=大きい / xl〜=さらに大きい）
+     ※ sm は small の略で、スマホ（SP）用という意味ではない */
+  --fs-xs: 12px; /* 著作権表記（SP） */
+  --fs-sm: 14px; /* タグ・カテゴリ（SP）、著作権表記（PC） */
+  --fs-base: 16px; /* 本文 */
+  --fs-md: 18px; /* 小見出し・アコーディオン見出し（SP） */
+  --fs-lg: 24px; /* メニュー項目・キャッチ・英語名・制作物タイトル（SP）、小見出し・アコーディオン見出し（PC） */
+  --fs-xl: 32px; /* セクション見出し（SP）、メニュー項目・英語名・制作物タイトル（PC） */
+  --fs-2xl: 40px; /* ABOUTキャッチ（PC） */
+  --fs-3xl: 48px; /* セクション見出し（PC）、KVタイトルの最小値 */
+  --fs-4xl: 72px; /* KVタイトルの最大値 */
+  /* ロゴ画像の高さ（横幅は画像の比率で自動） */
+  --logo-h-sm: 45px; /* スクロール時 */
+  --logo-h: 43px;
+  --logo-h-lg: 70px; /* PC */
+
+  --content-w: 1024px;
+  --gutter: 16px;
+  --section-py: 60px;
+}
+/* PCのときの上下の余白
+ */
+@media (min-width: 768px) {
+  :root {
+    --section-py: 80px;
+  }
+}
+/* SPとPCで表示の切り替え */
+.sp-only {
+  display: inline;
+}
+.pc-only {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sp-only {
+    display: none;
+  }
+  .pc-only {
+    display: inline;
+  }
+}
+
+/* ---------- 共通パーツ ---------- 要確認 */
+.inner {
+  width: 100%;
+  /* デザインカンプの最大幅1024pxを削らずに、コンテンツの最大幅を絶対16pxの余白を取れるように上限を設定*/
+  max-width: calc(var(--content-w) + var(--gutter) * 2);
+  margin-inline: auto;
+  /* 左右に確実に余白を設ける */
+  padding-inline: var(--gutter);
+}
+
+.section-title {
+  font-weight: 500;
+  font-size: var(--fs-xl);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--c-text);
+}
+@media (min-width: 768px) {
+  .section-title {
+    font-size: var(--fs-3xl);
+  }
+}
+
+/* 縦棒つきの小見出し（私の強み・制作の目的 など） */
+.label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 700;
+  font-size: var(--fs-md);
+  line-height: 1.2;
+}
+.label::before {
+  content: "";
+  flex-shrink: 0;
+  width: 6px;
+  height: 1.2em;
+  border-radius: 999px;
+  background: var(--c-bar);
+}
+@media (min-width: 768px) {
+  .label {
+    font-size: var(--fs-lg);
+  }
+}
+
+/*  */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 9px 0 10px;
+  border-radius: 80px;
+  background: var(--c-brown);
+  color: var(--c-bg);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .tag {
+    font-size: var(--fs-base);
+  }
+}
+
+/* ヘッダー */
+/*  */
+.header {
+  position: fixed; /* スクロールしても上に張り付いているように */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex; /* ロゴ、X、ハンバーガーたちを横並び */
+  align-items: center; /* 高さの違う要素の横の中心を合わせる */
+  justify-content: space-between; /*headerが包んでる要素としてはロゴとハンバーガー・Xのdivやからその二つを端っこによけれてる。3つバラバラになってない  */
+  height: 72px; /* 普段の高さ　上下余白 12px（align-items: center;で自動的に空いてる） + メニューボタン高さ 48px */
+  padding-inline: var(--gutter);
+  background-color: rgb(
+    77 74 69 / 0.5
+  ); /* テキストカラー（--c-text）を半透明に */
+}
+/* ロゴの初期の設定SP デフォ */
+.header__logo img,
+.menu__logo img {
+  display: block;
+  width: auto;
+  height: var(--logo-h);
+}
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header__sns {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+.header__sns img {
+  width: 100%;
+  height: 100%;
+}
+.header__menu-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+/* ハンバーガーメニューのホバー時に黄色の丸出す*/
+.header__menu-btn:hover,
+.header__menu-btn:focus-visible {
+  /* メインカラー（--c-yellow）を半透明に。*/
+  background-color: rgb(253 216 74 / 0.3);
+  /* 円自体はボタンの背景に色を付けて出現（角丸50％にしてるから円になってる） */
+  /* ボタンの角が円周に当たってほしくないから余裕持たせるために、円をボタンより一回り大きくしてる  */
+  /* 陰で一回り大きくしてるから宙に浮かせてるみたいになってて、余白の大きさとかが変わることは無い */
+  box-shadow: 0 0 0 8px rgb(253 216 74 / 0.3);
+}
+/* ハンバーガーメニューの大きさに合わせて挿入画像の大きさ調整してる */
+.header__menu-icon {
+  width: 100%;
+  height: 100%;
+}
+/* PCのとき */
+@media (min-width: 768px) {
+  .header {
+    height: 88px; /* 上下余白 16px + メニューボタン 56px */
+    padding-left: 58px;
+    padding-right: 58px;
+  }
+  /* ロゴの初期の設定PC */
+  .header__logo img {
+    height: var(--logo-h-lg);
+  }
+  .header__actions {
+    gap: 24px;
+  }
+  .header__sns {
+    width: 48px;
+    height: 48px;
+  }
+  .header__menu-btn {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* スクロールしたら高さ 48px に縮める（main.js で付け外し）。SP・PC 共通 */
+.header,
+.header__logo img,
+.header__actions,
+.header__sns,
+.header__menu-btn {
+  transition-duration: 0.3s; /* headerの全パーツに対してゆっくり変われやと言ってる */
+}
+
+/* transition-propertyは上の記述で何をアニメーションするかを決めるプロパティ */
+/* スクロールした時に動くやつの指定 */
+.header {
+  transition-property: height;
+}
+.header__logo img {
+  transition-property: height;
+}
+.header__actions {
+  transition-property: gap;
+}
+.header__sns {
+  transition-property: width, height;
+}
+.header__menu-btn {
+  transition-property: width, height, background-color, box-shadow;
+}
+/* jsでheaderにクラス名is-scrolledを付けた時（）の処理 */
+/*  */
+.header.is-scrolled {
+  height: 48px;
+}
+/* headerにクラス名のis-scrolledが付いたものの中にある(後ろにスペースがある書き方)
+子要素header__logoにスタイル当てる */
+.header.is-scrolled .header__logo img {
+  height: var(--logo-h-sm);
+}
+/* スクロールした時、header__actionsの中の子要素、
+Xアイコンとハンバーガーの間を16pxから12pxに変更 */
+.header.is-scrolled .header__actions {
+  gap: 12px;
+}
+/* スクロールした時、Xアイコンの大きさ変える */
+.header.is-scrolled .header__sns {
+  width: 28px;
+  height: 28px;
+}
+/* スクロールした時、ハンバーガーメニューの大きさ変える */
+.header.is-scrolled .header__menu-btn {
+  width: 36px;
+  height: 36px;
+}
+/* スクロールした時のホバー、フォーカス状態 */
+.header.is-scrolled .header__menu-btn:hover,
+.header.is-scrolled .header__menu-btn:focus-visible {
+  /* 円がヘッダーからはみ出さないよう 36 + 6×2 = 48px に収める。8pxから6pxにしてる */
+  box-shadow: 0 0 0 6px rgb(253 216 74 / 0.3);
+}
+
+/* =========================================================
+   メニュー（ハンバーガー展開）
+   ========================================================= */
+/* 展開した時にこうしたいなーをhtmlに記述したとこ */
+/* クリックされるまではopacity: 0; で隠されてる。準備周到状態で、opacity;1で表示 */
+.menu {
+  /* どの画面にいても、画面の最前面に表示されるようにしてる */
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-white);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+}
+/* ハンバーガークリック→menuにis-openを付与した次の動作 */
+.menu.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.menu__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px var(--gutter) 0;
+}
+.menu__close-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  transition:
+    background-color 0.2s,
+    box-shadow 0.2s;
+}
+.menu__close-btn:hover,
+.menu__close-btn:focus-visible {
+  /* メインカラー（--c-yellow）を半透明に。box-shadow で円をボタンより一回り大きく */
+  background-color: rgb(253 216 74 / 0.3);
+  box-shadow: 0 0 0 8px rgb(253 216 74 / 0.3);
+}
+.menu__close-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.menu__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin: auto;
+  padding: 40px 0 80px;
+}
+.menu__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.menu__item {
+  font-weight: 500;
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+  color: var(--c-text);
+  transition: color 0.2s;
+}
+.menu__item:hover,
+.menu__item:focus-visible {
+  color: var(--c-brown);
+}
+.menu__divider {
+  width: 160px;
+  height: 1px;
+  background: var(--c-text);
+}
+.menu__sns {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--fs-base);
+  color: var(--c-text);
+}
+.menu__sns img {
+  width: 32px;
+  height: 32px;
+}
+
+@media (min-width: 768px) {
+  .menu__header {
+    height: 180px;
+    padding: 24px 64px;
+  }
+  .menu__logo img {
+    height: var(--logo-h-lg);
+  }
+  .menu__close-btn {
+    width: 56px;
+    height: 56px;
+  }
+  .menu__body {
+    gap: 48px;
+    padding-top: 0;
+  }
+  .menu__nav {
+    gap: 32px;
+  }
+  .menu__item {
+    font-size: var(--fs-xl);
+  }
+  .menu__divider {
+    width: 240px;
+  }
+  .menu__sns img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* =========================================================
+   KV
+   ========================================================= */
+.kv {
+  position: relative;
+  height: 100vh; /* svh 非対応ブラウザ用 */
+  height: 100svh; /* 仕様的に最新。画面の高さぴったりに収める */
+  min-height: 480px;
+  background: #111 url("../img/kv.png") center / cover no-repeat;
+}
+.kv::after {
+  /* kv__overlay：下に向かって暗くするグラデーション */
+  content: "";
+  position: absolute;
+  /* top,right,bottom,left を全部なしにして親要素いっぱいに広げる */
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.55)
+  );
+}
+/* KVのタイトルとやじるしの箱 ※ずっとそうだけどSPなのを忘れずに*/
+.kv__inner {
+  position: absolute;
+  /* 上;指定しない、左右;端から端まで広がる（justify-content: space-betweenで両端に寄せるため）、下;32pxの余白 */
+  inset: auto 0 32px;
+  /* 文字でかいほど上。今は1が一番でかいからこれが一番上 */
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-inline: var(--gutter);
+}
+.kv__title {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 500;
+  /* 日本語は1行の文字数が多いので最小32px。画面幅の6％、最大72pxまで連続した値を取る */
+  font-size: clamp(var(--fs-xl), 6vw, var(--fs-4xl));
+  line-height: 1.2;
+  color: var(--c-white);
+}
+.kv__title-accent {
+  color: var(--c-yellow);
+}
+.kv__sub {
+  margin-top: 16px;
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--c-white);
+}
+@media (min-width: 768px) {
+  .kv__sub {
+    margin-top: 24px;
+    font-size: var(--fs-base);
+  }
+}
+/* 10282054 */
+.kv__scroll {
+  font-size: var(--fs-xl);
+  line-height: 1;
+  color: var(--c-yellow);
+  animation: kv-scroll 1.8s ease-in-out infinite;
+}
+@keyframes kv-scroll {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@media (min-width: 768px) {
+  .kv__inner {
+    bottom: 23%; /* カンプ（高さ800px）での位置を比率に換算 */
+    left: 50%;
+    right: auto;
+    width: var(--content-w);
+    max-width: calc(100% - var(--gutter) * 2);
+    transform: translateX(-50%);
+    justify-content: flex-start;
+    gap: 200px;
+    padding: 0;
+  }
+  /* PCはやじるしを画面の左右中央に置く。kv__innerが画面中央にあるので、その50%＝画面の真ん中 */
+  .kv__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: -104px;
+    /* translateはアニメーションのtransformとぶつからないよう別プロパティで指定 */
+    translate: -50% 0;
+    font-size: var(--fs-2xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kv__scroll {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+.about {
+  padding-block: var(--section-py) 60px;
+  background: var(--c-white);
+}
+/* ABOUTとその下のスローガン的な言葉 */
+.about__header {
+  /* 子要素は2つともブロック要素だから普通に縦に並ぶ。display: flex;でフレックスボックスにわざとしてgapを登録できるようにしてる */
+  display: flex;
+  /* display: flex;はデフォで横にならんじゃうから縦に矯正しなおし */
+  flex-direction: column;
+  gap: 24px;
+}
+.about__catch {
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+}
+.about__profile {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+}
+.about__photo {
+  width: 100%;
+  aspect-ratio: 361 / 277;
+  object-fit: cover;
+  object-position: center top; /* 切り抜く時に上端を基準にして、頭が切れないようにする */
+}
+.about__name-en {
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+}
+
+.about__name-ja {
+  margin-top: 8px;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+
+.about__desc {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+
+.about__strengths {
+  margin-top: 56px;
+}
+.about__strengths .label {
+  margin-bottom: 8px;
+}
+/* 画面の幅が768px以上の時（PC）だけ */
+@media (min-width: 768px) {
+  .about {
+    padding-bottom: 100px;
+  }
+  .about__header {
+    gap: 40px;
+  }
+  .about__catch {
+    font-size: var(--fs-2xl);
+  }
+  /* 写真と名前その他もろもろのブロックの2要素 */
+  .about__profile {
+    /* SPでは縦並びになってるのを横にしてる */
+    flex-direction: row;
+    align-items: flex-start;
+    /* 親要素の幅が約376px〜1024pxのあいだは連続的に変わり、それより狭いと32px、広いと87pxで固定される */
+    gap: clamp(32px, 8.5%, 87px);
+    margin-top: 48px;
+  }
+  .about__photo {
+    flex: 0 0 auto;
+    width: 46.3%; /* 474 / 1024 */
+    aspect-ratio: 474 / 470;
+  }
+  .about__body {
+    flex: 1;
+  }
+  .about__name-en {
+    font-size: var(--fs-xl);
+  }
+  .about__name-ja {
+    margin-top: 12px;
+  }
+  .about__desc {
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .about__strengths {
+    margin-top: 32px;
+  }
+  .about__strengths .label {
+    margin-bottom: 20px;
+  }
+}
+
+/* ---------- アコーディオン（details / summary） ---------- */
+/* 下の点線、線の太さ、点線、色*/
+.accordion__item {
+  border-bottom: 1px dashed var(--c-text);
+}
+/* 「▶」（開いているときは「▼」）がsummaryで作るとデフォで付くけど消してる */
+.accordion__head {
+  /* 子要素が全部インラインであったとしても、親に付けるだけでブロックぽい箱として扱われる。
+  flex/inline-flex / grid / inline-gridの子になれば、align-items : centerが効く*/
+  display: flex;
+  align-items: center; /*高さの違うもん横の中心線に整列  */
+  gap: 16px;
+  padding: 20px 0;
+  cursor: pointer; /* アコーディオンゾーンに入ると、やじるしから指のやつに代わって押せるのがわかるようになる */
+  list-style: none; /* 「▶」（開いているときは「▼」）がsummaryで作るとデフォで付くけど消してる */
+}
+/* safariでの三角消す */
+.accordion__head::-webkit-details-marker {
+  display: none;
+}
+/* 隣の文字が余ったとこ全部に広げる設定にしてるから数字縮まんように */
+.accordion__num {
+  /* 隣の文字が余ったとこ全部に広げる設定にしてるから数字の箱が16pxから縮まんように。
+  数字の箱の幅が削られると文字の開始位置がずれる。 */
+  flex-shrink: 0;
+  width: 16px;
+  font-size: var(--fs-md);
+  line-height: 1.2;
+}
+.accordion__title {
+  flex: 1;
+  font-size: var(--fs-md);
+  line-height: 1.2;
+}
+/* +－を描く空箱の設定 */
+.accordion__icon {
+  /* ＋ / － */
+  position: relative;
+  /* 何があっても縮むなよ */
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+.accordion__icon::before,
+.accordion__icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--c-bar);
+  /* top: 50%;  left: 50%;の調整 */
+  transform: translate(-50%, -50%);
+  /* 変化にかける時間 */
+  transition: transform 0.5s;
+}
+/* 横目いっぱいに広げて高さちょいだし */
+.accordion__icon::before {
+  width: 100%;
+  height: 1px;
+}
+/* 縦目いっぱいに広げて幅ちょいだし */
+.accordion__icon::after {
+  width: 1px;
+  height: 100%;
+}
+/* <details> タグは、クリックして開くとブラウザが自動で open という印を付ける。open なとき、高さがつぶれて横1pxのみ残る。横棒に隠れれる */
+.accordion__item[open] .accordion__icon::after {
+  transform: translate(-50%, -50%) scaleY(0);
+}
+/* summary以外の中身を包む部分。閉じているときは高さ0にして、開閉をゆっくり動かす */
+.accordion__item::details-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  /* 変化にかける時間（アイコンと揃えて0.5s）。content-visibilityは閉じ終わるまで中身を消さないため */
+  transition:
+    max-height 0.5s,
+    opacity 0.5s,
+    content-visibility 0.5s allow-discrete;
+}
+.accordion__item[open]::details-content {
+  max-height: 1000px; /* 中身より大きければOK */
+  opacity: 1;
+}
+/* Chrome・Edge */
+/* height: auto へのアニメーションができるブラウザ（Chrome・Edge）では、中身ぴったりの高さまで動かす */
+@supports (interpolate-size: allow-keywords) {
+  .accordion__item {
+    interpolate-size: allow-keywords;
+  }
+  .accordion__item::details-content {
+    height: 0;
+    transition:
+      height 0.5s,
+      opacity 0.5s,
+      content-visibility 0.5s allow-discrete;
+  }
+  .accordion__item[open]::details-content {
+    height: auto;
+  }
+}
+.accordion__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 0 24px 32px;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+.accordion__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.accordion__sub {
+  font-weight: 500;
+}
+.scene-tag {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px 8px 16px;
+  border: 2px solid var(--c-yellow);
+  border-radius: 999px;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--c-text);
+}
+.scene-tag::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-yellow);
+  flex-shrink: 0;
+}
+
+.accordion__head:focus-visible {
+  outline: 2px solid var(--c-brown);
+  outline-offset: 4px;
+}
+
+@media (min-width: 768px) {
+  .accordion__head {
+    gap: 32px;
+    padding: 32px 56px 32px 0;
+  }
+  .accordion__num {
+    width: 24px;
+    font-size: var(--fs-lg);
+  }
+  .accordion__title {
+    font-size: var(--fs-lg);
+  }
+  .accordion__icon {
+    width: 32px;
+    height: 32px;
+  }
+  .accordion__body {
+    padding: 0 88px 32px 56px;
+  }
+}
+
+/* =========================================================
+   CAREER
+   ========================================================= */
+.career {
+  padding-block: var(--section-py);
+  background: var(--c-yellow-pale);
+  overflow: hidden;
+}
+.career__inner {
+  position: relative;
+}
+/* position: absolute; で位置を指定 */
+.career__map {
+  position: absolute;
+  top: -9px;
+  right: -24px;
+  width: 300px;
+}
+.career .section-title {
+  position: relative;
+}
+.timeline {
+  position: relative;
+  /* 日付、出来事を一度横にしてから、縦に並べる */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 32px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 30px;
+  left: 3.5px;
+  width: 1px;
+  background: #000;
+}
+.timeline__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+.timeline__item::before {
+  /* timeline__dot */
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-text);
+}
+.timeline__date {
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .career__map {
+    top: -31px;
+    right: 0;
+    width: 41.7%; /* 427 / 1024 */
+    max-width: 427px;
+  }
+  .timeline {
+    gap: 40px;
+    margin-top: 48px;
+  }
+  .timeline::before {
+    top: 14px;
+    bottom: 14px;
+    left: 7.5px;
+  }
+  .timeline__item {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    padding-left: 32px;
+  }
+  .timeline__item::before {
+    top: 6px;
+    width: 16px;
+    height: 16px;
+  }
+  .timeline__date {
+    flex-shrink: 0;
+    width: 96px;
+  }
+}
+
+/* =========================================================
+   WORKS
+   ========================================================= */
+.works {
+  padding-block: var(--section-py);
+  background: var(--c-white);
+}
+.works__title {
+  margin-top: 16px;
+  font-weight: 400;
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+}
+.works__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+.works__category {
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+.works__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/* 作品URL（作品名・タグの下、写真の上） */
+.works-links {
+  margin-top: 16px;
+}
+/*  */
+/* URLと展開アイコンの箱 */
+.works-links__url {
+  display: inline-flex; /* ブロック要素を横並びにして、inlineが付いてるから箱の幅は要素分 */
+  align-items: center; /* URLの横の中心にアイコン合わせる */
+  gap: 6px;
+  max-width: 100%; /* 長いURLでもSPではみ出さないように */
+  color: var(--c-text);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  text-decoration: underline;
+  text-underline-offset: 4px; /* URLの下線とテキストの間隔 */
+  overflow-wrap: anywhere; /* 英字の長いURLでもSPではみ出さないように */
+  transition: opacity 0.3s;
+}
+.works-links__icon {
+  flex-shrink: 0;
+  /* 隣のURLの文字サイズに合わせてる */
+  width: 1em;
+  height: 1em;
+}
+@media (any-hover: hover) {
+  .works-links__url:hover {
+    /* ホバー時に少し透明度高く */
+    opacity: 0.7;
+  }
+}
+/* キーボードで選択した時に出る枠線についての記述 */
+.works-links__url:focus-visible {
+  outline: 2px solid var(--c-text);
+  outline-offset: 2px;
+}
+.works__image {
+  width: 100%;
+  margin-top: 32px;
+}
+.works__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 32px;
+}
+.works__block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.works__role {
+  font-weight: 500;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+.works__text {
+  max-width: 800px;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+.works__text--strong {
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .works__title {
+    margin-top: 48px;
+    font-size: var(--fs-xl);
+  }
+  .works__meta {
+    gap: 30px;
+  }
+  .works__category {
+    font-size: var(--fs-base);
+  }
+  .works__tags {
+    gap: 16px;
+  }
+  .works-links {
+    margin-top: 24px;
+  }
+  .works-links__url {
+    font-size: var(--fs-base);
+  }
+  .works__image {
+    margin-top: 48px;
+  }
+  .works__detail {
+    gap: 64px;
+    margin-top: 48px;
+  }
+  .works__block {
+    gap: 24px;
+  }
+  .works__role,
+  .works__text {
+    max-width: 800px;
+  }
+}
+
+/* =========================================================
+   フッター
+   ========================================================= */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 60px var(--gutter) 24px;
+  background: var(--c-brown);
+  color: var(--c-white);
+  font-weight: 500;
+}
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-base);
+}
+.footer__nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+.footer__nav a:hover,
+.footer__nav a:focus-visible {
+  color: var(--c-yellow);
+}
+.footer__divider {
+  width: 160px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+}
+.footer__about {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 640px;
+  text-align: center;
+}
+.footer__about-title {
+  font-size: var(--fs-base);
+  font-weight: 400;
+}
+.footer__about-text {
+  font-size: var(--fs-base);
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: left;
+}
+.footer__copyright {
+  font-size: var(--fs-xs);
+}
+.footer__copyright small {
+  font-size: inherit;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    gap: 40px;
+    padding: 64px var(--gutter) 32px;
+  }
+  .footer__nav {
+    flex-direction: row;
+    gap: clamp(40px, 8vw, 120px);
+  }
+  .footer__nav a {
+    min-height: auto;
+  }
+  .footer__about {
+    gap: 12px;
+  }
+  .footer__about-text {
+    line-height: 1.6;
+  }
+  .footer__copyright {
+    font-size: var(--fs-sm);
+  }
+}
